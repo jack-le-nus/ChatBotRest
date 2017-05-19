@@ -18,12 +18,14 @@ consumes:
 produces:
   - application/json
 paths:
-  /movie:
-    # our controller name
-    x-swagger-router-controller: movie_list
+  /webhook:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: webhook
+    
     post:
-      description: add a new movie to the list
-      # movie info to be stored
+      description: post a message
+      operationId: webhook
+      # message to be stored
       parameters:
         - name: title
           description: Movie properties
@@ -35,7 +37,55 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: "#/definitions/GeneralResponse"
+            $ref: "#/definitions/GetAnswerResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  # /intent:
+  #   # binds a127 app logic to a route
+  #   x-swagger-router-controller: intent
+  #   get:
+  #     description: Returns answer to the caller
+  #     # used as the method name of the controller
+  #     operationId: getAnswer
+  #     parameters:
+  #       - name: question
+  #         in: query
+  #         description: The question of the user
+  #         required: false
+  #         type: string
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           # a pointer to a definition
+  #           $ref: "#/definitions/GetAnswerResponse"
+  #       # responses may fall through to errors
+  #       default:
+  #         description: Error
+  #         schema:
+  #           $ref: "#/definitions/ErrorResponse"
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -56,18 +106,25 @@ definitions:
     required:
       - title
       - year
-  GeneralResponse:
-    type: object
-    properties:
-      success:
-        type: number
-        description: returns 1 if successful
-      description:
-        type: string
-        description: a short comment 
+  GetAnswerResponse:
     required:
-      - success
-      - description
+      - speech
+      - displayText
+      - source
+    properties:
+      # The string of answer
+      speech:
+        type: string
+      displayText:
+        type: string
+      source:
+        type: string
+  HelloWorldResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
   ErrorResponse:
     required:
       - message
