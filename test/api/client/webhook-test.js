@@ -157,7 +157,8 @@ describe('/webhook', function() {
               "action": "yahooWeatherForecast",
               "actionIncomplete": false,
               "parameters": {
-                "geo-city": "Chennai"
+                "from": "1600 Amphitheatre Parkway, Mountain View, CA",
+                "to": "1500 Charleston Rd, Mountain View, CA 94043, USA"
               },
               "contexts": [],
               "metadata": {
@@ -183,6 +184,11 @@ describe('/webhook', function() {
           },
           "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
         })
+      .expect({
+        "displayText": "'Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\\n'",
+        "source": "apiai-weather-webhook-sample",
+        "speech": "'Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\\n'"
+      })
       .end(function(err, res) {
         if (err) return done(err);
         expect(validator.validate(res.body, schema)).to.be.true;

@@ -4,9 +4,26 @@ var apiai = require("apiai");
 const uuidV1 = require('uuid/v1');
 var util = require('util');
 var stringify = require('node-stringify');
+var async = require("async");
 var googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyCOz13wwpDgZZG1ePVqHwRCTvi7xK7wfik'
 });
+
+var map = require('google_directions');
+ 
+var params = {
+    // REQUIRED 
+    origin: "1600 Amphitheatre Parkway, Mountain View, CA",
+    destination: "1500 Charleston Rd, Mountain View, CA 94043, USA",
+    key: "AIzaSyCOz13wwpDgZZG1ePVqHwRCTvi7xK7wfik",
+ 
+    // OPTIONAL 
+    mode: "",
+    avoid: "",
+    language: "",
+    units: "",
+    region: "",
+};
 
 var stringify = require('node-stringify');
 
@@ -21,43 +38,7 @@ module.exports = {
   webhook: webhook
 };
 
-function getGeoCode(address, callback) {
-  googleMapsClient.geocode({
-        address: '1600 Amphitheatre Parkway, Mountain View, CA'
-      }, function(err, response) {
-
-        if (!err) {
-          console.log("asdfasdf1" + stringify(response.json));
-          callback(response.json.results[0].geometry.location);
-        }
-        else {
-          console.log("asdfasdf2" + err);
-        }
-
-      });
-}
-
 function webhook(req, res) {
-  var name = req.swagger.params.question || 'stranger';
-  var hello = util.format('Hello, %s!', name);
-
-  getGeoCode('1600 Amphitheatre Parkway, Mountain View, CA', function(location) {
-      googleMapsClient.directions({
-        origin: location,
-        destination: [37.4224764,  -122.0842499] 
-      }, function(err, response) {
-        if (!err) {
-          
-          res.json(response.json.results[0]);
-
-          return
-        }
-        else {
-          console.log("asdfasdf2" + err);
-        }
-
-      });
-  });
 
   if(isEmptyObject(req.body)) {
     console.log("fail");
@@ -65,13 +46,44 @@ function webhook(req, res) {
     return
   }
 
-  // var speech = stringify(req.body)//.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
-  // console.log("success");
-  // res.json({
-  //       "speech": speech,
-  //       "displayText": speech,
-  //       "source": "apiai-weather-webhook-sample"
-  //   })
+  var result = {};
+
+  async.series([
+        //Load user to get `userId` first
+        function(callback) {
+            map.getDirectionSteps(params, function (err, steps){
+                if (err) {
+                    console.log(err);
+                    return 1;
+                }
+            
+                // parse the JSON object of steps into a string output 
+                var output="";
+                var stepCounter = 1;
+                steps.forEach(function(stepObj) {
+                    var instruction = stepObj.html_instructions;
+                    instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
+                    var distance = stepObj.distance.text;
+                    var duration = stepObj.duration.text;
+                    output += "Step " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")\n";
+                    stepCounter++;
+                });	
+                result = output;
+
+                callback();
+            });
+        }
+    ], function(err) { 
+        if (err) return next(err);
+        //Here `locals` will be populated with `user`, `photos` and `photos`
+        console.log("finish " + stringify(result))
+
+        res.json({
+              "speech": stringify(result),
+              "displayText": stringify(result),
+              "source": "apiai-weather-webhook-sample"
+          })
+    });
 }
 
 function isEmptyObject(obj) {
