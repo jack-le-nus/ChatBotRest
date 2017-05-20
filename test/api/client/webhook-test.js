@@ -56,40 +56,6 @@ var expect = chai.expect;
 
 describe('/webhook', function() {
   describe('post', function() {
-    it('should respond with 200 Success', function(done) {
-      /*eslint-disable*/
-      var schema = {
-        "required": [
-          "speech",
-          "displayText",
-          "source"
-        ],
-        "properties": {
-          "speech": {
-            "type": "string"
-          },
-          "displayText": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          }
-        }
-      };
-
-      /*eslint-enable*/
-      api.post('/webhook')
-      .set('Content-Type', 'application/json')
-      .send({
-        title: 'DATA GOES HERE'
-      })
-      .expect(200)
-      .end(function(err, res) {
-        if (err) return done(err);
-        expect(validator.validate(res.body, schema)).to.be.true;
-        done();
-      });
-    });
 
     it('should respond with default Error', function(done) {
       /*eslint-disable*/

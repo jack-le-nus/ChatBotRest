@@ -51,6 +51,10 @@ function webhook(req, res) {
   async.series([
         //Load user to get `userId` first
         function(callback) {
+          
+          var paramInfo = req['body']['result']['parameters'];
+          params.origin = paramInfo['from'];
+          params.destination = paramInfo['to'];
             map.getDirectionSteps(params, function (err, steps){
                 if (err) {
                     console.log(err);
