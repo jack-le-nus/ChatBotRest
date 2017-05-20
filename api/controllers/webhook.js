@@ -3,6 +3,7 @@
 var apiai = require("apiai");
 const uuidV1 = require('uuid/v1');
 var util = require('util');
+var stringify = require('node-stringify');
 var googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyCOz13wwpDgZZG1ePVqHwRCTvi7xK7wfik'
 });
@@ -61,7 +62,7 @@ function webhook(req, res) {
     return
   }
 
-  var speech = req.body//.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
+  var speech = stringify(req.body)//.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
   console.log("success");
   res.json({
         "speech": speech,
