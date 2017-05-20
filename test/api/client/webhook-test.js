@@ -86,7 +86,6 @@ describe('/webhook', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
-
         expect(validator.validate(res.body, schema)).to.be.true;
         done();
       });
@@ -123,6 +122,77 @@ describe('/webhook', function() {
       });
     });
 
+    it('should return directions with from and to points', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "required": [
+          "speech",
+          "displayText",
+          "source"
+        ],
+        "properties": {
+          "speech": {
+            "type": "string"
+          },
+          "displayText": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      };
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+          "id": "222a8b96-374d-4ecd-b8a3-3b754b691d8b",
+          "timestamp": "2017-05-20T13:35:06.006Z",
+          "lang": "en",
+          "result": {
+              "source": "agent",
+              "resolvedQuery": "Show me weather in Chennai",
+              "speech": "",
+              "action": "yahooWeatherForecast",
+              "actionIncomplete": false,
+              "parameters": {
+                "geo-city": "Chennai"
+              },
+              "contexts": [],
+              "metadata": {
+                "intentId": "f59f4d20-6d45-4123-830f-72e801a85468",
+                "webhookUsed": "true",
+                "webhookForSlotFillingUsed": "false",
+                "intentName": "Weather Intent"
+              },
+              "fulfillment": {
+                "speech": "",
+                "messages": [
+                    {
+                      "type": 0,
+                      "speech": ""
+                    }
+                ]
+              },
+              "score": 1
+          },
+          "status": {
+              "code": 200,
+              "errorType": "success"
+          },
+          "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
+        })
+      .end(function(err, res) {
+        if (err) return done(err);
+        expect(validator.validate(res.body, schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 2000);
+    });
+
   });
 
 });
+

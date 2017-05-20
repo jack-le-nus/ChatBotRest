@@ -47,7 +47,10 @@ function webhook(req, res) {
         destination: [37.4224764,  -122.0842499] 
       }, function(err, response) {
         if (!err) {
-          res.json(hello + "asdfasdf12" +  response.json.results[0].address_components);
+          
+          res.json(response.json.results[0]);
+
+          return
         }
         else {
           console.log("asdfasdf2" + err);
@@ -62,13 +65,13 @@ function webhook(req, res) {
     return
   }
 
-  var speech = stringify(req.body)//.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
-  console.log("success");
-  res.json({
-        "speech": speech,
-        "displayText": speech,
-        "source": "apiai-weather-webhook-sample"
-    })
+  // var speech = stringify(req.body)//.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
+  // console.log("success");
+  // res.json({
+  //       "speech": speech,
+  //       "displayText": speech,
+  //       "source": "apiai-weather-webhook-sample"
+  //   })
 }
 
 function isEmptyObject(obj) {
