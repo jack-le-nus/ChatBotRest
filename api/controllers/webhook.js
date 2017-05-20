@@ -68,9 +68,7 @@ function webhook(req, res) {
         function(callback) {
 
           var paramInfo = req['body']['result']['parameters'];
-          
-          
-
+      
           params.origin = getLocationString(paramInfo['from']);
           params.destination = getLocationString(paramInfo['to']);
 
@@ -104,8 +102,8 @@ function webhook(req, res) {
         console.log("finish " + stringify(result))
 
         res.json({
-              "speech": stringify(result),
-              "displayText": stringify(result),
+              "speech": result,
+              "displayText": result,
               "source": "apiai-weather-webhook-sample"
           })
     });
