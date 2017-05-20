@@ -1,5 +1,7 @@
 'use strict';
 
+var StringBuilder = require('stringbuilder')
+StringBuilder.extend('string');
 var apiai = require("apiai");
 const uuidV1 = require('uuid/v1');
 var util = require('util');
@@ -38,6 +40,19 @@ module.exports = {
   webhook: webhook
 };
 
+function getLocationString(location) {
+  if(typeof location === 'string' || location instanceof String) {
+    return location
+  }
+
+  return String.format('{0} {1} {2} {3} {4} {5}', 
+        location['business-name'],
+        location['street-address'],
+        location['city'],
+        location['zip-code'],
+        location['country']);
+}
+
 function webhook(req, res) {
 
   if(isEmptyObject(req.body)) {
@@ -51,10 +66,16 @@ function webhook(req, res) {
   async.series([
         //Load user to get `userId` first
         function(callback) {
-          
+
           var paramInfo = req['body']['result']['parameters'];
-          params.origin = paramInfo['from'];
-          params.destination = paramInfo['to'];
+          
+          
+
+          params.origin = getLocationString(paramInfo['from']);
+          params.destination = getLocationString(paramInfo['to']);
+
+          console.log(params.origin + ' AAAAAAAA ' + params.destination)
+          
             map.getDirectionSteps(params, function (err, steps){
                 if (err) {
                     console.log(err);
