@@ -61,7 +61,7 @@ function webhook(req, res) {
     return
   }
 
-  var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
+  var speech = req.body//.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again."
   console.log("success");
   res.json({
         "speech": speech,
