@@ -120,7 +120,7 @@ describe('/webhook', function() {
               "source": "agent",
               "resolvedQuery": "Show me weather in Chennai",
               "speech": "",
-              "action": "yahooWeatherForecast",
+              "action": "yahooWeatherForecast1",
               "actionIncomplete": false,
               "parameters": {
                 "from": "1600 Amphitheatre Parkway, Mountain View, CA",

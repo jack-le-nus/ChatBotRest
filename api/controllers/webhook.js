@@ -98,7 +98,6 @@ function webhook(req, res) {
         }
     ], function(err) { 
         if (err) return next(err);
-        //Here `locals` will be populated with `user`, `photos` and `photos`
         console.log("finish " + stringify(result))
 
         res.json({
