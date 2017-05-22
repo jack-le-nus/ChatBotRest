@@ -66,35 +66,35 @@ function webhook(req, res) {
   async.series([
         //Load user to get `userId` first
         function(callback) {
+            console.log(req['body']['result']['action'])
+            if(req['body']['result']['action'] == 'navigation.directions') {
+                var paramInfo = req['body']['result']['parameters'];
+                params.origin = getLocationString(paramInfo['from']);
+                params.destination = getLocationString(paramInfo['to']);
+                console.log(params.origin + ' AAAAAAAA ' + params.destination)
+                
+                    map.getDirectionSteps(params, function (err, steps){
+                        if (err) {
+                            console.log(err);
+                            return 1;
+                        }
+                    
+                        // parse the JSON object of steps into a string output 
+                        var output="";
+                        var stepCounter = 1;
+                        steps.forEach(function(stepObj) {
+                            var instruction = stepObj.html_instructions;
+                            instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
+                            var distance = stepObj.distance.text;
+                            var duration = stepObj.duration.text;
+                            output += "Step " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")\n";
+                            stepCounter++;
+                        });	
+                        result = output;
 
-          var paramInfo = req['body']['result']['parameters'];
-      
-          params.origin = getLocationString(paramInfo['from']);
-          params.destination = getLocationString(paramInfo['to']);
-
-          console.log(params.origin + ' AAAAAAAA ' + params.destination)
-          
-            map.getDirectionSteps(params, function (err, steps){
-                if (err) {
-                    console.log(err);
-                    return 1;
-                }
-            
-                // parse the JSON object of steps into a string output 
-                var output="";
-                var stepCounter = 1;
-                steps.forEach(function(stepObj) {
-                    var instruction = stepObj.html_instructions;
-                    instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
-                    var distance = stepObj.distance.text;
-                    var duration = stepObj.duration.text;
-                    output += "Step " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")\n";
-                    stepCounter++;
-                });	
-                result = output;
-
-                callback();
-            });
+                        callback();
+                    });
+            }
         }
     ], function(err) { 
         if (err) return next(err);

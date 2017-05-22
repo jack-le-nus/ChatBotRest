@@ -120,7 +120,7 @@ describe('/webhook', function() {
               "source": "agent",
               "resolvedQuery": "Show me weather in Chennai",
               "speech": "",
-              "action": "yahooWeatherForecast1",
+              "action": "navigation.directions",
               "actionIncomplete": false,
               "parameters": {
                 "from": "1600 Amphitheatre Parkway, Mountain View, CA",
@@ -197,7 +197,7 @@ describe('/webhook', function() {
               "source": "agent",
               "resolvedQuery": "Show me weather in Chennai",
               "speech": "",
-              "action": "yahooWeatherForecast",
+              "action": "navigation.directions",
               "actionIncomplete": false,
               "parameters": {
                 "from": {"country":"United States of America",
@@ -234,9 +234,9 @@ describe('/webhook', function() {
           "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
       .expect({
-        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd StParts of this road may be closed at certain times or days (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
         "source": "apiai-weather-webhook-sample",
-        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd StParts of this road may be closed at certain times or days (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n"
+        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n"
       })
       .end(function(err, res) {
         if (err) return done(err);
