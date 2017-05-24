@@ -7,12 +7,112 @@ const uuidV1 = require('uuid/v1');
 var util = require('util');
 var stringify = require('node-stringify');
 var async = require("async");
+var GoogleLocations = require('google-locations');
+var locations = new GoogleLocations('AIzaSyCOz13wwpDgZZG1ePVqHwRCTvi7xK7wfik');
 var googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyCOz13wwpDgZZG1ePVqHwRCTvi7xK7wfik'
 });
 
 var map = require('google_directions');
- 
+var place_types = [
+"accounting",
+"airport",
+"amusement_park",
+"aquarium",
+"art_gallery",
+"atm",
+"bakery",
+"bank",
+"bar",
+"beauty_salon",
+"bicycle_store",
+"book_store",
+"bowling_alley",
+"bus_station",
+"cafe",
+"campground",
+"car_dealer",
+"car_rental",
+"car_repair",
+"car_wash",
+"casino",
+"cemetery",
+"church",
+"city_hall",
+"clothing_store",
+"convenience_store",
+"courthouse",
+"dentist",
+"department_store",
+"doctor",
+"electrician",
+"electronics_store",
+"embassy",
+"establishment (deprecated)",
+"finance (deprecated)",
+"fire_station",
+"florist",
+"food (deprecated)",
+"funeral_home",
+"furniture_store",
+"gas_station",
+"general_contractor (deprecated)",
+"grocery_or_supermarket (deprecated)",
+"gym",
+"hair_care",
+"hardware_store",
+"health (deprecated)",
+"hindu_temple",
+"home_goods_store",
+"hospital",
+"insurance_agency",
+"jewelry_store",
+"laundry",
+"lawyer",
+"library",
+"liquor_store",
+"local_government_office",
+"locksmith",
+"lodging",
+"meal_delivery",
+"meal_takeaway",
+"mosque",
+"movie_rental",
+"movie_theater",
+"moving_company",
+"museum",
+"night_club",
+"painter",
+"park",
+"parking",
+"pet_store",
+"pharmacy",
+"physiotherapist",
+"place_of_worship (deprecated)",
+"plumber",
+"police",
+"post_office",
+"real_estate_agency",
+"restaurant",
+"roofing_contractor",
+"rv_park",
+"school",
+"shoe_store",
+"shopping_mall",
+"spa",
+"stadium",
+"storage",
+"store",
+"subway_station",
+"synagogue",
+"taxi_stand",
+"train_station",
+"transit_station",
+"travel_agency",
+"university",
+"veterinary_care",
+"zoo"
+];
 var params = {
     // REQUIRED 
     origin: "1600 Amphitheatre Parkway, Mountain View, CA",
@@ -62,17 +162,38 @@ function webhook(req, res) {
   }
 
   var result = {};
+  var array_results = []
 
   async.series([
         //Load user to get `userId` first
         function(callback) {
-            console.log(req['body']['result']['action'])
+            
             if(req['body']['result']['action'] == 'navigation.directions') {
                 var paramInfo = req['body']['result']['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
                 params.destination = getLocationString(paramInfo['to']);
-                console.log(params.origin + ' AAAAAAAA ' + params.destination)
-                
+
+                console.log("from " + params.origin + " to " + place_types.indexOf("atm"))
+                if(place_types.indexOf(params.destination.replace(/\s/g,'').toLowerCase()) >= 0 ||  
+                    place_types.indexOf(params.destination.replace(" ", "_").toLowerCase()) >=0) {
+
+                        console.log("search nearby")
+                        locations.search({
+                                location: [1.290842, 103.776356],
+                                radius: 500,
+                                language: 'en',
+                                rankby: 'prominence',
+                                types: ["atm"]
+                            }, function(err, response) {
+                            console.log("search: ", response.results);
+                            
+                            array_results = response.results
+                            // locations.details({placeid: response.results[0]["place_id"]}, function(err, response) {
+                            //     result = response.result.name//response.results[0]["name"];
+                                callback();
+                            // });
+                        });
+                } else {
                     map.getDirectionSteps(params, function (err, steps){
                         if (err) {
                             console.log(err);
@@ -94,17 +215,38 @@ function webhook(req, res) {
 
                         callback();
                     });
+                }
             }
         }
     ], function(err) { 
         if (err) return next(err);
         console.log("finish " + stringify(result))
 
-        res.json({
+        if(array_results.length > 0) {
+            res.json({
+                "facebook": {
+                    "text": "Pick a color:",
+                    "quick_replies": [
+                        {
+                            "content_type": "text",
+                            "title": "Red",
+                            "payload": "red"
+                        },
+                        {
+                            "content_type": "text",
+                            "title": "Green",
+                            "payload": "green"
+                        }
+                    ]
+            }})
+        }
+        else {
+            res.json({
               "speech": result,
               "displayText": result,
               "source": "apiai-weather-webhook-sample"
           })
+        }
     });
 }
 

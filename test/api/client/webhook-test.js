@@ -161,7 +161,7 @@ describe('/webhook', function() {
         done();
       });
 
-      setTimeout(done, 2000);
+      setTimeout(done, 1000);
     });
 
 
@@ -245,6 +245,173 @@ describe('/webhook', function() {
       });
 
       setTimeout(done, 2000);
+    });
+
+
+    it('should return directions with nearest ATM', function(done) {
+      /*eslint-disable*/
+      var schema = {
+          "title": 'facebook',
+          "type": 'object',
+          "required": ['text', 'quick_replies'],
+          "properties": {
+            "quick_replies": {
+              "type": 'array'
+            },
+            "text": {
+              "type": 'string'
+            }
+          }
+        };
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "id": "63faf915-5aef-46fa-940f-23225a3615c4",
+            "timestamp": "2017-05-24T13:20:18.511Z",
+            "lang": "en",
+            "result": {
+              "source": "agent",
+              "resolvedQuery": "get directions to the nearest ATM",
+              "action": "navigation.directions",
+              "actionIncomplete": true,
+              "parameters": {
+                "exclude-point": "",
+                "from": "Heng mui keng terrace",
+                "include-point": "",
+                "road-type": "",
+                "route-type": "",
+                "sort": [
+                  "nearest"
+                ],
+                "to": {
+                  "business-name": "ATM"
+                }
+              },
+              "contexts": [
+                {
+                  "name": "navigation_directions_dialog_params_from",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 1
+                },
+                {
+                  "name": "navigation_directions_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                },
+                {
+                  "name": "bb2bb19c-a285-46b9-82c4-da0a89c6c373_id_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                }
+              ],
+              "metadata": {
+                "intentId": "bb2bb19c-a285-46b9-82c4-da0a89c6c373",
+                "webhookUsed": "true",
+                "webhookForSlotFillingUsed": "false",
+                "intentName": "navigation.directions"
+              },
+              "fulfillment": {
+                "speech": "Enter start point",
+                "messages": [
+                  {
+                    "type": 0,
+                    "speech": "Enter start point"
+                  }
+                ]
+              },
+              "score": 1
+            },
+            "status": {
+              "code": 200,
+              "errorType": "success"
+            },
+            "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
+          })
+      .expect({
+                "facebook": {
+                "text": "Pick a color:",
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": "Red",
+                        "payload": "red"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Green",
+                        "payload": "green"
+                    }
+                ]
+            }})
+      .end(function(err, res) {
+        if (err) return done(err);
+        expect(validator.validate(res.body, schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 3000);
     });
   });
 
