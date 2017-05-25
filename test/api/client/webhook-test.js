@@ -405,16 +405,19 @@ describe('/webhook', function() {
                 {
                   "type": 1,
                   "platform": "skype",
-                  "title": "title",
-                  "subtitle": "subtitle",
+                  "title": "which place do you want to go ?",
                   "buttons" : [
                     {
-                      "text": "400 Carbon Dr Pittsburgh, PA 15205",
-                      "postback": "get nearest directions from Pittsburgh to 400 Carbon Dr Pittsburgh, PA 15205"
+                      "text": "Posb Bank",
+                      "postback": "get nearest directions from Heng mui keng terrace to 10 Science Park Road"
                     },
                     {
-                       "text": "replies",
-                      "postback": "get nearest directions from Pittsburgh to ATM"
+                       "text": "AXS",
+                      "postback": "get nearest directions from Heng mui keng terrace to 27 Prince George's Park"
+                    },
+                    {
+                       "text": "DBS ATM",
+                      "postback": "get nearest directions from Heng mui keng terrace to 13 Computing Drive"
                     }
                   ]
                 }

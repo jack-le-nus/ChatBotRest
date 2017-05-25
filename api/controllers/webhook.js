@@ -223,7 +223,7 @@ function webhook(req, res) {
         console.log("finish " + stringify(result))
 
         if(array_results.length > 0) {
-            res.json({
+            var response = {
                 "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
                 "source": "apiai-weather-webhook-sample",
                 "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
@@ -231,21 +231,33 @@ function webhook(req, res) {
                         {
                         "type": 1,
                         "platform": "skype",
-                        "title": "title",
-                        "subtitle": "subtitle",
+                        "title": "which place do you want to go ?",
                         "buttons" : [
-                            {
-                            "text": "400 Carbon Dr Pittsburgh, PA 15205",
-                            "postback": "get nearest directions from Pittsburgh to 400 Carbon Dr Pittsburgh, PA 15205"
-                            },
-                            {
-                            "text": "replies",
-                            "postback": "get nearest directions from Pittsburgh to ATM"
-                            }
+                            // {
+                            //     "text": "400 Carbon Dr Pittsburgh, PA 15205",
+                            //     "postback": "get nearest directions from Pittsburgh to 400 Carbon Dr Pittsburgh, PA 15205"
+                            // },
+                            // {
+                            //     "text": "replies",
+                            //     "postback": "get nearest directions from Pittsburgh to ATM"
+                            // }
                         ]
-                        }
+                    }
                 ]
-            })
+            }
+            for(var i = 0; i < array_results.length; i++) {
+                if(!array_results[i]["vicinity"].toLowerCase().includes(params.origin.toLowerCase())) {
+                        response["messages"][0]["buttons"].push(
+                            {
+                                "text": array_results[i]["name"],
+                                "postback": "get nearest directions from " + params.origin + " to " + array_results[i]["vicinity"]
+                            }
+                        )
+                }
+                
+            }
+            
+            res.json(response)
         }
         else {
             res.json({
