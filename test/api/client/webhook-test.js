@@ -251,18 +251,23 @@ describe('/webhook', function() {
     it('should return directions with nearest ATM', function(done) {
       /*eslint-disable*/
       var schema = {
-          "title": 'facebook',
-          "type": 'object',
-          "required": ['text', 'quick_replies'],
-          "properties": {
-            "quick_replies": {
-              "type": 'array'
-            },
-            "text": {
-              "type": 'string'
-            }
+        "required": [
+          "speech",
+          "displayText",
+          "source"
+        ],
+        "properties": {
+          "speech": {
+            "type": "string"
+          },
+          "displayText": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
           }
-        };
+        }
+      };
 
       /*eslint-enable*/
       api.post('/webhook')
@@ -390,21 +395,27 @@ describe('/webhook', function() {
             "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
       .expect({
-                "facebook": {
-                "text": "Pick a color:",
-                "quick_replies": [
-                    {
-                        "content_type": "text",
-                        "title": "Red",
-                        "payload": "red"
-                    },
-                    {
-                        "content_type": "text",
-                        "title": "Green",
-                        "payload": "green"
-                    }
-                ]
-            }})
+        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+        "source": "apiai-weather-webhook-sample",
+        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+        "data": {
+          "facebook": {
+                    "text": "Pick a color:",
+                    "quick_replies": [
+                        {
+                            "content_type": "text",
+                            "title": "Red",
+                            "payload": "red"
+                        },
+                        {
+                            "content_type": "text",
+                            "title": "Green",
+                            "payload": "green"
+                        }
+                    ]
+              }
+        }
+      })
       .end(function(err, res) {
         if (err) return done(err);
         expect(validator.validate(res.body, schema)).to.be.true;

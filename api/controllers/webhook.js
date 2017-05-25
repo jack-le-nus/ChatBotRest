@@ -224,21 +224,27 @@ function webhook(req, res) {
 
         if(array_results.length > 0) {
             res.json({
+                "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+                "source": "apiai-weather-webhook-sample",
+                "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+                "data": {
                 "facebook": {
-                    "text": "Pick a color:",
-                    "quick_replies": [
-                        {
-                            "content_type": "text",
-                            "title": "Red",
-                            "payload": "red"
-                        },
-                        {
-                            "content_type": "text",
-                            "title": "Green",
-                            "payload": "green"
-                        }
-                    ]
-            }})
+                            "text": "Pick a color:",
+                            "quick_replies": [
+                                {
+                                    "content_type": "text",
+                                    "title": "Red",
+                                    "payload": "red"
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Green",
+                                    "payload": "green"
+                                }
+                            ]
+                    }
+                }
+            })
         }
         else {
             res.json({

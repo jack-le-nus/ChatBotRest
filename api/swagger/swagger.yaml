@@ -113,12 +113,15 @@ definitions:
       - source
     properties:
       # The string of answer
+      
       speech:
         type: string
       displayText:
         type: string
       source:
         type: string
+      data:
+        type: object
   HelloWorldResponse:
     required:
       - message
