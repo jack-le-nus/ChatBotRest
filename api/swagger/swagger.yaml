@@ -106,6 +106,18 @@ definitions:
     # required:
     #   - title
     #   - year
+  Message:
+    type: object
+    # properties:
+    #   title:
+    #     type: string
+    #     description: task object name
+    #   year:
+    #     type: number
+    #     description: task description
+    # required:
+    #   - title
+    #   - year
   GetAnswerResponse:
     required:
       - speech
@@ -113,15 +125,16 @@ definitions:
       - source
     properties:
       # The string of answer
-      
       speech:
         type: string
       displayText:
         type: string
       source:
         type: string
-      data:
-        type: object
+      messages:
+        type: array
+        items: 
+          $ref: "#/definitions/Message"
   HelloWorldResponse:
     required:
       - message
