@@ -401,18 +401,20 @@ describe('/webhook', function() {
         "data": {
           "skype": {
                     "text": "Pick a color:",
-                    "quick_replies": [
-                        {
-                            "content_type": "text",
-                            "title": "Red",
-                            "payload": "red"
-                        },
-                        {
-                            "content_type": "text",
-                            "title": "Green",
-                            "payload": "green"
-                        }
-                    ]
+                    "suggestedActions": {
+                      "actions" : [
+                          {
+                              "type": "imBack",
+                              "title": "Red",
+                              "value": "Green"
+                          },
+                          {
+                              "type": "imBack",
+                              "title": "Green",
+                              "value": "Green"
+                          }
+                      ]
+                    }
               }
         }
       })
