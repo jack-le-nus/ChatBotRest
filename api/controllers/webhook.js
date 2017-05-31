@@ -145,12 +145,12 @@ function getLocationString(location) {
     return location
   }
 
-  return String.format('{0} {1} {2} {3} {4} {5}', 
-        location['business-name'],
+  return String.format('{0} {1} {2} {3} {4}', 
+        
         location['street-address'],
         location['city'],
         location['zip-code'],
-        location['country']).trim().replace(" ", "_");
+        location['business-name']).trim().replace(" ", "_");
 }
 
 function webhook(req, res) {
