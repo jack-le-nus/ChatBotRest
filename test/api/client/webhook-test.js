@@ -151,9 +151,9 @@ describe('/webhook', function() {
           "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
         })
       .expect({
-        "displayText": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)%0D%0AStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)%0D%0AStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)%0D%0A",
+        "displayText": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\r\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\r\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\r\n",
         "source": "apiai-weather-webhook-sample",
-        "speech": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)%0D%0AStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)%0D%0AStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)%0D%0A"
+        "speech": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\r\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\r\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\r\n"
       })
       .end(function(err, res) {
         if (err) return done(err);
@@ -234,9 +234,9 @@ describe('/webhook', function() {
           "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
       .expect({
-        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)%0D%0AStep 2: Turn right onto E 48th St (0.2 mi/2 mins)%0D%0AStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)%0D%0AStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)%0D%0A",
+        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\r\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\r\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\r\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\r\n",
         "source": "apiai-weather-webhook-sample",
-        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)%0D%0AStep 2: Turn right onto E 48th St (0.2 mi/2 mins)%0D%0AStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)%0D%0AStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)%0D%0A"
+        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\r\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\r\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\r\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\r\n"
       })
       .end(function(err, res) {
         if (err) return done(err);
