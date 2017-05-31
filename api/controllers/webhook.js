@@ -150,7 +150,7 @@ function getLocationString(location) {
         location['street-address'],
         location['city'],
         location['zip-code'],
-        location['business-name']).trim().replace(" ", "_");
+        location['admin-area']).trim().replace(" ", "_");
 }
 
 function webhook(req, res) {
