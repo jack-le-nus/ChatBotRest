@@ -145,7 +145,7 @@ function getLocationString(location) {
     return location
   }
 
-  if(location['business-name'] != "") {
+  if(location['business-name']) {
       
       return location['business-name'].replace(" ", "_")
   }
