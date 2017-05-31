@@ -15,103 +15,103 @@ var googleMapsClient = require('@google/maps').createClient({
 
 var map = require('google_directions');
 var place_types = [
-"accounting",
-"airport",
-"amusement_park",
-"aquarium",
-"art_gallery",
-"atm",
-"bakery",
-"bank",
-"bar",
-"beauty_salon",
-"bicycle_store",
-"book_store",
-"bowling_alley",
-"bus_station",
-"cafe",
-"campground",
-"car_dealer",
-"car_rental",
-"car_repair",
-"car_wash",
-"casino",
-"cemetery",
-"church",
-"city_hall",
-"clothing_store",
-"convenience_store",
-"courthouse",
-"dentist",
-"department_store",
-"doctor",
-"electrician",
-"electronics_store",
-"embassy",
-"establishment (deprecated)",
-"finance (deprecated)",
-"fire_station",
-"florist",
-"food (deprecated)",
-"funeral_home",
-"furniture_store",
-"gas_station",
-"general_contractor (deprecated)",
-"grocery_or_supermarket (deprecated)",
-"gym",
-"hair_care",
-"hardware_store",
-"health (deprecated)",
-"hindu_temple",
-"home_goods_store",
-"hospital",
-"insurance_agency",
-"jewelry_store",
-"laundry",
-"lawyer",
-"library",
-"liquor_store",
-"local_government_office",
-"locksmith",
-"lodging",
-"meal_delivery",
-"meal_takeaway",
-"mosque",
-"movie_rental",
-"movie_theater",
-"moving_company",
-"museum",
-"night_club",
-"painter",
-"park",
-"parking",
-"pet_store",
-"pharmacy",
-"physiotherapist",
-"place_of_worship (deprecated)",
-"plumber",
-"police",
-"post_office",
-"real_estate_agency",
-"restaurant",
-"roofing_contractor",
-"rv_park",
-"school",
-"shoe_store",
-"shopping_mall",
-"spa",
-"stadium",
-"storage",
-"store",
-"subway_station",
-"synagogue",
-"taxi_stand",
-"train_station",
-"transit_station",
-"travel_agency",
-"university",
-"veterinary_care",
-"zoo"
+    "accounting",
+    "airport",
+    "amusement_park",
+    "aquarium",
+    "art_gallery",
+    "atm",
+    "bakery",
+    "bank",
+    "bar",
+    "beauty_salon",
+    "bicycle_store",
+    "book_store",
+    "bowling_alley",
+    "bus_station",
+    "cafe",
+    "campground",
+    "car_dealer",
+    "car_rental",
+    "car_repair",
+    "car_wash",
+    "casino",
+    "cemetery",
+    "church",
+    "city_hall",
+    "clothing_store",
+    "convenience_store",
+    "courthouse",
+    "dentist",
+    "department_store",
+    "doctor",
+    "electrician",
+    "electronics_store",
+    "embassy",
+    "establishment (deprecated)",
+    "finance (deprecated)",
+    "fire_station",
+    "florist",
+    "food (deprecated)",
+    "funeral_home",
+    "furniture_store",
+    "gas_station",
+    "general_contractor (deprecated)",
+    "grocery_or_supermarket (deprecated)",
+    "gym",
+    "hair_care",
+    "hardware_store",
+    "health (deprecated)",
+    "hindu_temple",
+    "home_goods_store",
+    "hospital",
+    "insurance_agency",
+    "jewelry_store",
+    "laundry",
+    "lawyer",
+    "library",
+    "liquor_store",
+    "local_government_office",
+    "locksmith",
+    "lodging",
+    "meal_delivery",
+    "meal_takeaway",
+    "mosque",
+    "movie_rental",
+    "movie_theater",
+    "moving_company",
+    "museum",
+    "night_club",
+    "painter",
+    "park",
+    "parking",
+    "pet_store",
+    "pharmacy",
+    "physiotherapist",
+    "place_of_worship (deprecated)",
+    "plumber",
+    "police",
+    "post_office",
+    "real_estate_agency",
+    "restaurant",
+    "roofing_contractor",
+    "rv_park",
+    "school",
+    "shoe_store",
+    "shopping_mall",
+    "spa",
+    "stadium",
+    "storage",
+    "store",
+    "subway_station",
+    "synagogue",
+    "taxi_stand",
+    "train_station",
+    "transit_station",
+    "travel_agency",
+    "university",
+    "veterinary_care",
+    "zoo"
 ];
 var params = {
     // REQUIRED 
@@ -150,13 +150,13 @@ function getLocationString(location) {
         location['street-address'],
         location['city'],
         location['zip-code'],
-        location['country']);
+        location['country']).trim().replace(" ", "_");
 }
 
 function webhook(req, res) {
 
   if(isEmptyObject(req.body)) {
-    console.log("fail");
+    // console.log("fail");
     res.status(500).send()
     return
   }
@@ -172,26 +172,21 @@ function webhook(req, res) {
                 var paramInfo = req['body']['result']['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
                 params.destination = getLocationString(paramInfo['to']);
-
-                console.log("from " + params.origin + " to " + place_types.indexOf("atm"))
-                if(place_types.indexOf(params.destination.replace(/\s/g,'').toLowerCase()) >= 0 ||  
-                    place_types.indexOf(params.destination.replace(" ", "_").toLowerCase()) >=0) {
-
-                        console.log("search nearby")
+                console.log("Destination: " + params.destination)
+                if(place_types.indexOf(params.destination.toLowerCase()) >= 0) {
+                        var place_type = params.destination.toLowerCase()
+                        // console.log("search nearby")
                         locations.search({
                                 location: [1.290842, 103.776356],
-                                radius: 500,
+                                radius: 1000,
                                 language: 'en',
                                 rankby: 'prominence',
-                                types: ["atm"]
+                                types: [place_type]
                             }, function(err, response) {
-                            console.log("search: ", response.results);
-                            
-                            array_results = response.results
-                            // locations.details({placeid: response.results[0]["place_id"]}, function(err, response) {
-                            //     result = response.result.name//response.results[0]["name"];
+                                // console.log("search: ", response.results);
+                                
+                                array_results = response.results
                                 callback();
-                            // });
                         });
                 } else {
                     map.getDirectionSteps(params, function (err, steps){
@@ -208,7 +203,7 @@ function webhook(req, res) {
                             instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
                             var distance = stepObj.distance.text;
                             var duration = stepObj.duration.text;
-                            output += "Step " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")\n";
+                            output += "Step " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")%0D%0A";
                             stepCounter++;
                         });	
                         result = output;
@@ -220,32 +215,27 @@ function webhook(req, res) {
         }
     ], function(err) { 
         if (err) return next(err);
-        console.log("finish " + stringify(result))
+        // console.log("finish " + stringify(result))
 
         if(array_results.length > 0) {
             var response = {
-                "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
-                "source": "apiai-weather-webhook-sample",
-                "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+                "displayText": "",
+                "source": "",
+                "speech": "",
                 "messages": [
-                        {
+                    {
                         "type": 1,
                         "platform": "skype",
-                        "title": "which place do you want to go ?",
+                        "title": "Where do you want to go ?",
                         "buttons" : [
-                            // {
-                            //     "text": "400 Carbon Dr Pittsburgh, PA 15205",
-                            //     "postback": "get nearest directions from Pittsburgh to 400 Carbon Dr Pittsburgh, PA 15205"
-                            // },
-                            // {
-                            //     "text": "replies",
-                            //     "postback": "get nearest directions from Pittsburgh to ATM"
-                            // }
+                            
                         ]
                     }
                 ]
             }
-            for(var i = 0; i < array_results.length; i++) {
+
+            var max_length = array_results.length > 5 ? 5 : array_results.length;
+            for(var i = 0; i < max_length; i++) {
                 if(!array_results[i]["vicinity"].toLowerCase().includes(params.origin.toLowerCase())) {
                         response["messages"][0]["buttons"].push(
                             {
@@ -270,7 +260,7 @@ function webhook(req, res) {
 }
 
 function isEmptyObject(obj) {
-  console.log("Length " + Object.keys(obj))
+//   console.log("Length " + Object.keys(obj))
   return Object.keys(obj).length === 0;
 }
 

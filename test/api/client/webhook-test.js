@@ -398,26 +398,30 @@ describe('/webhook', function() {
             "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
       .expect({
-        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
-        "source": "apiai-weather-webhook-sample",
-        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n",
+        "displayText": "",
+        "source": "",
+        "speech": "",        
         "messages": [
                 {
                   "type": 1,
                   "platform": "skype",
-                  "title": "which place do you want to go ?",
+                  "title": "Where do you want to go ?",
                   "buttons" : [
                     {
-                      "text": "Posb Bank",
-                      "postback": "get nearest directions from Heng mui keng terrace to 10 Science Park Road"
+                      "postback": "get nearest directions from Heng mui keng terrace to 10 Kent Ridge Crescent",
+                      "text": "UOB ATM"
                     },
                     {
-                       "text": "AXS",
-                      "postback": "get nearest directions from Heng mui keng terrace to 27 Prince George's Park"
+                      "postback": "get nearest directions from Heng mui keng terrace to 10 Science Park Road",
+                      "text": "Posb Bank"
                     },
                     {
-                       "text": "DBS ATM",
-                      "postback": "get nearest directions from Heng mui keng terrace to 13 Computing Drive"
+                      "postback": "get nearest directions from Heng mui keng terrace to 27 Prince George's Park",
+                      "text": "AXS"
+                    },
+                    {
+                      "postback": "get nearest directions from Heng mui keng terrace to 396 Pasir Panjang Road",
+                      "text": "HSBC Singapore"
                     }
                   ]
                 }
@@ -430,6 +434,194 @@ describe('/webhook', function() {
       });
 
       setTimeout(done, 3000);
+    });
+
+     it('should return directions with nearest gas petrol', function(done) {
+      /*eslint-disable*/
+      var schema = {
+        "required": [
+          "speech",
+          "displayText",
+          "source"
+        ],
+        "properties": {
+          "speech": {
+            "type": "string"
+          },
+          "displayText": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "messages": {
+            "type": "array"
+          }
+        }
+      };
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "id": "63faf915-5aef-46fa-940f-23225a3615c4",
+            "timestamp": "2017-05-24T13:20:18.511Z",
+            "lang": "en",
+            "result": {
+              "source": "agent",
+              "resolvedQuery": "how to get to the nearest gas station",
+              "action": "navigation.directions",
+              "actionIncomplete": true,
+              "parameters": {
+                "exclude-point": "",
+                "from": "Heng mui keng terrace",
+                "include-point": "",
+                "road-type": "",
+                "route-type": "",
+                "sort": [
+                  "nearest"
+                ],
+                "to": {
+                  "business-name": "gas station"
+                }
+              },
+              "contexts": [
+                {
+                  "name": "navigation_directions_dialog_params_from",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "gas station",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 1
+                },
+                {
+                  "name": "navigation_directions_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "gas station",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                },
+                {
+                  "name": "bb2bb19c-a285-46b9-82c4-da0a89c6c373_id_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                }
+              ],
+              "metadata": {
+                "intentId": "bb2bb19c-a285-46b9-82c4-da0a89c6c373",
+                "webhookUsed": "true",
+                "webhookForSlotFillingUsed": "false",
+                "intentName": "navigation.directions"
+              },
+              "fulfillment": {
+                "speech": "Enter start point",
+                "messages": [
+                  {
+                    "type": 0,
+                    "speech": "Enter start point"
+                  }
+                ]
+              },
+              "score": 1
+            },
+            "status": {
+              "code": 200,
+              "errorType": "success"
+            },
+            "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
+          })
+      .expect({
+          "displayText": "",
+          "source": "",
+          "speech": "", 
+          "messages": [
+                {
+                  "type": 1,
+                  "platform": "skype",
+                  "title": "Where do you want to go ?",
+                  "buttons" : [
+                    {
+                      "text": "Shell Station",
+                      "postback": "get nearest directions from Heng mui keng terrace to 328 Pasir Panjang Road"
+                    },
+                    {
+                      "postback": "get nearest directions from Heng mui keng terrace to 41 Science Park Road, Singapore",
+                      "text": "Silesia Flavours South East Asia Pte Ltd"
+                    },
+                    {
+                      "postback": "get nearest directions from Heng mui keng terrace to 20 Science Park Road, Singapore",
+                      "text": "Samco Shipholding Pte. Ltd."
+                    },
+                    {
+                      "postback": "get nearest directions from Heng mui keng terrace to 20 Harbour Drive",
+                      "text": "RH Petrogas Limited"
+                    }
+                  ]
+                }
+        ]
+      })
+      .end(function(err, res) {
+        if (err) return done(err);
+        // expect(validator.validate(res.body, schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 4000);
     });
   });
 
