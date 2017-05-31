@@ -203,7 +203,7 @@ function webhook(req, res) {
                             instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
                             var distance = stepObj.distance.text;
                             var duration = stepObj.duration.text;
-                            output += "%0D%0AStep " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")%0D%0A";
+                            output += "Step " + stepCounter + ": " + instruction + " ("+ distance +"/"+ duration+")";
                             stepCounter++;
                         });	
                         result = output;
