@@ -145,12 +145,16 @@ function getLocationString(location) {
     return location
   }
 
-  return String.format('{0} {1} {2} {3} {4}', 
-        
+  if(location['business-name'] != "") {
+      
+      return location['business-name'].replace(" ", "_")
+  }
+
+  return String.format('{0} {1} {2} {3} {4}',
         location['street-address'],
         location['city'],
-        location['zip-code'],
-        location['admin-area']).trim().replace(" ", "_");
+        location['admin-area'],
+        location['zip-code']).trim();
 }
 
 function webhook(req, res) {
