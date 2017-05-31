@@ -156,7 +156,7 @@ function getLocationString(location) {
 function webhook(req, res) {
 
   if(isEmptyObject(req.body)) {
-    // console.log("fail");
+    console.log("fail");
     res.status(500).send()
     return
   }
@@ -175,7 +175,7 @@ function webhook(req, res) {
                 console.log("Destination: " + params.destination)
                 if(place_types.indexOf(params.destination.toLowerCase()) >= 0) {
                         var place_type = params.destination.toLowerCase()
-                        // console.log("search nearby")
+                        
                         locations.search({
                                 location: [1.290842, 103.776356],
                                 radius: 1000,
@@ -222,13 +222,11 @@ function webhook(req, res) {
         }
     ], function(err) { 
         if (err) return next(err);
-        // console.log("finish " + stringify(result))
+        console.log("finish " + stringify(result))
 
+        
         if(array_results.length > 0) {
             var response = {
-                "displayText": "",
-                "source": "",
-                "speech": "",
                 "messages": [
                     {
                         "type": 1,
@@ -257,10 +255,14 @@ function webhook(req, res) {
             res.json(response)
         }
         else {
+            console.log("search nearby")
             res.json({
-              "speech": result,
-              "displayText": result,
-              "source": "apiai-weather-webhook-sample"
+              "messages": [        
+                    {
+                        "type": 0,
+                        "speech": result
+                    }
+                ]
           })
         }
     });

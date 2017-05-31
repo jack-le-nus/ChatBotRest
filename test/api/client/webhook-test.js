@@ -89,25 +89,6 @@ describe('/webhook', function() {
     });
 
     it('should return directions with string from and to points', function(done) {
-      /*eslint-disable*/
-      var schema = {
-        "required": [
-          "speech",
-          "displayText",
-          "source"
-        ],
-        "properties": {
-          "speech": {
-            "type": "string"
-          },
-          "displayText": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          }
-        }
-      };
 
       /*eslint-enable*/
       api.post('/webhook')
@@ -151,13 +132,16 @@ describe('/webhook', function() {
           "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
         })
       .expect({
-        "displayText": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\r\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\r\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\r\n",
-        "source": "apiai-weather-webhook-sample",
-        "speech": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\r\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\r\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\r\n"
-      })
+       "messages": [        
+                    {
+                        "type": 0,
+                        "speech": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\r\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\r\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\r\n"
+                    }
+                ]
+    })
       .end(function(err, res) {
         if (err) return done(err);
-        expect(validator.validate(res.body, schema)).to.be.true;
+        // expect(validator.validate(res.body, schema)).to.be.true;
         done();
       });
 
@@ -166,26 +150,6 @@ describe('/webhook', function() {
 
 
     it('should return directions with object from and to points', function(done) {
-      /*eslint-disable*/
-      var schema = {
-        "required": [
-          "speech",
-          "displayText",
-          "source"
-        ],
-        "properties": {
-          "speech": {
-            "type": "string"
-          },
-          "displayText": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          }
-        }
-      };
-
       /*eslint-enable*/
       api.post('/webhook')
       .set('Content-Type', 'application/json')
@@ -234,13 +198,16 @@ describe('/webhook', function() {
           "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
       .expect({
-        "displayText": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\r\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\r\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\r\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\r\n",
-        "source": "apiai-weather-webhook-sample",
-        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\r\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\r\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\r\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\r\n"
-      })
+        "messages": [        
+                    {
+                        "type": 0,
+                        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\r\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\r\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\r\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\r\n"
+                    }
+                ]
+    })
       .end(function(err, res) {
         if (err) return done(err);
-        expect(validator.validate(res.body, schema)).to.be.true;
+        // expect(validator.validate(res.body, schema)).to.be.true;
         done();
       });
 
@@ -249,28 +216,6 @@ describe('/webhook', function() {
 
 
     it('should return directions with nearest ATM', function(done) {
-      /*eslint-disable*/
-      var schema = {
-        "required": [
-          "speech",
-          "displayText",
-          "source"
-        ],
-        "properties": {
-          "speech": {
-            "type": "string"
-          },
-          "displayText": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          },
-          "messages": {
-            "type": "array"
-          }
-        }
-      };
 
       /*eslint-enable*/
       api.post('/webhook')
@@ -397,10 +342,7 @@ describe('/webhook', function() {
             },
             "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
-      .expect({
-        "displayText": "",
-        "source": "",
-        "speech": "",        
+      .expect({    
         "messages": [
                 {
                   "type": 1,
@@ -437,28 +379,6 @@ describe('/webhook', function() {
     });
 
      it('should return directions with nearest gas petrol', function(done) {
-      /*eslint-disable*/
-      var schema = {
-        "required": [
-          "speech",
-          "displayText",
-          "source"
-        ],
-        "properties": {
-          "speech": {
-            "type": "string"
-          },
-          "displayText": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          },
-          "messages": {
-            "type": "array"
-          }
-        }
-      };
 
       /*eslint-enable*/
       api.post('/webhook')
@@ -586,9 +506,6 @@ describe('/webhook', function() {
             "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
           })
       .expect({
-          "displayText": "",
-          "source": "",
-          "speech": "", 
           "messages": [
                 {
                   "type": 1,
