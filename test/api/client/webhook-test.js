@@ -135,7 +135,7 @@ describe('/webhook', function() {
        "messages": [        
                     {
                         "type": 0,
-                        "speech": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\n"
+                        "speech": "Step 1: Head east on Amphitheatre Pkwy toward Bill Graham Pkwy (0.4 mi/1 min)\n\nStep 2: Turn right onto N Shoreline Blvd (0.2 mi/1 min)\n\nStep 3: Turn right at the 1st cross street onto Charleston RdDestination will be on the right (0.2 mi/1 min)\n\n"
                     }
                 ]
     })
@@ -201,7 +201,7 @@ describe('/webhook', function() {
         "messages": [        
                     {
                         "type": 0,
-                        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n"
+                        "speech": "Step 1: Head northeast on Madison Ave toward E 43rd St (0.3 mi/2 mins)\n\nStep 2: Turn right onto E 48th St (0.2 mi/2 mins)\n\nStep 3: Turn right at the 2nd cross street onto Lexington Ave (266 ft/1 min)\n\nStep 4: Turn right at the 1st cross street onto E 47th StDestination will be on the left (177 ft/1 min)\n\n"
                     }
                 ]
     })
