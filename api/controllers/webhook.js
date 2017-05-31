@@ -204,7 +204,7 @@ function webhook(req, res) {
                             var distance = stepObj.distance.text;
                             var duration = stepObj.duration.text;
 
-                            output = String.format('{0}Step {1}: {2} ({3}/{4})\r\n',
+                            output = String.format('{0}Step {1}: {2} ({3}/{4})\n',
                                 output,
                                 stepCounter,
                                 instruction,
