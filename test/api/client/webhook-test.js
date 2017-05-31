@@ -230,7 +230,7 @@ describe('/webhook', function() {
               "actionIncomplete": true,
               "parameters": {
                 "exclude-point": "",
-                "from": "Heng mui keng terrace",
+                "from": {"admin-area":"California","city":"San Francisco","street-address":"375 11th St","zip-code":"94103"},
                 "include-point": "",
                 "road-type": "",
                 "route-type": "",
@@ -348,23 +348,173 @@ describe('/webhook', function() {
                   "platform": "skype",
                   "title": "Where do you want to go ?",
                   "buttons" : [
-                    {
-                      "postback": "get nearest directions from Heng mui keng terrace to 10 Kent Ridge Crescent",
-                      "text": "UOB ATM"
-                    },
-                    {
-                      "postback": "get nearest directions from Heng mui keng terrace to 10 Science Park Road",
-                      "text": "Posb Bank"
-                    },
-                    {
-                      "postback": "get nearest directions from Heng mui keng terrace to 27 Prince George's Park",
-                      "text": "AXS"
-                    },
-                    {
-                      "postback": "get nearest directions from Heng mui keng terrace to 396 Pasir Panjang Road",
-                      "text": "HSBC Singapore"
-                    }
+                            {
+                              "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 2300 16th Street, San Francisco",
+                              "text": "Wells Fargo Bank"
+                            },
+                            {
+                              "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 555 9th Street, San Francisco",
+                              "text": "Wells Fargo ATM"
+                            },
+                            {
+                              "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 1266 Market ST, San Francisco",
+                              "text": "Wells Fargo Bank"
+                            },
+                            {
+                              "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 2300 16th Street # 230, San Francisco",
+                              "text": "ATM (Wells Fargo Bank)"
+                            },
+                            {
+                              "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 2300 16th Street #290, San Francisco",
+                              "text": "Chase Bank"
+                            }
+
                   ]
+                }
+        ]
+      })
+      .end(function(err, res) {
+        if (err) return done(err);
+        // expect(validator.validate(res.body, schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 3000);
+    });
+
+    it('should return No ATM found', function(done) {
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "id": "63faf915-5aef-46fa-940f-23225a3615c4",
+            "timestamp": "2017-05-24T13:20:18.511Z",
+            "lang": "en",
+            "result": {
+              "source": "agent",
+              "resolvedQuery": "get directions to the nearest ATM",
+              "action": "navigation.directions",
+              "actionIncomplete": true,
+              "parameters": {
+                "exclude-point": "",
+                "from": {"admin-area":"California","city":"Lemoore","street-address":"17225 Jersey Ave","zip-code":"93245"},
+                "include-point": "",
+                "road-type": "",
+                "route-type": "",
+                "sort": [
+                  "nearest"
+                ],
+                "to": {
+                  "business-name": "ATM"
+                }
+              },
+              "contexts": [
+                {
+                  "name": "navigation_directions_dialog_params_from",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 1
+                },
+                {
+                  "name": "navigation_directions_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                },
+                {
+                  "name": "bb2bb19c-a285-46b9-82c4-da0a89c6c373_id_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                }
+              ],
+              "metadata": {
+                "intentId": "bb2bb19c-a285-46b9-82c4-da0a89c6c373",
+                "webhookUsed": "true",
+                "webhookForSlotFillingUsed": "false",
+                "intentName": "navigation.directions"
+              },
+              "fulfillment": {
+                "speech": "Enter start point",
+                "messages": [
+                  {
+                    "type": 0,
+                    "speech": "Enter start point"
+                  }
+                ]
+              },
+              "score": 1
+            },
+            "status": {
+              "code": 200,
+              "errorType": "success"
+            },
+            "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
+          })
+      .expect({    
+        "messages": [
+                {
+                  "type": 0,
+                  "speech": "There is no ATM"
+            
                 }
         ]
       })
@@ -393,7 +543,7 @@ describe('/webhook', function() {
               "actionIncomplete": true,
               "parameters": {
                 "exclude-point": "",
-                "from": "Heng mui keng terrace",
+                "from": {"admin-area":"California","city":"San Francisco","street-address":"375 11th St","zip-code":"94103"},
                 "include-point": "",
                 "road-type": "",
                 "route-type": "",
@@ -512,22 +662,172 @@ describe('/webhook', function() {
                   "title": "Where do you want to go ?",
                   "buttons" : [
                     {
-                      "text": "Shell Station",
-                      "postback": "get nearest directions from Heng mui keng terrace to 328 Pasir Panjang Road"
+                      "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 1298 Howard Street, San Francisco",
+                      "text": "Chevron"                    
                     },
                     {
-                      "postback": "get nearest directions from Heng mui keng terrace to 41 Science Park Road, Singapore",
-                      "text": "Silesia Flavours South East Asia Pte Ltd"
+                      "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 2300 16th Street, San Francisco",
+                       "text": "Potrero Shell"
                     },
                     {
-                      "postback": "get nearest directions from Heng mui keng terrace to 20 Science Park Road, Singapore",
-                      "text": "Samco Shipholding Pte. Ltd."
+                      "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 1601 Mission Street, San Francisco",
+                      "text": "Chevron"
                     },
                     {
-                      "postback": "get nearest directions from Heng mui keng terrace to 20 Harbour Drive",
-                      "text": "RH Petrogas Limited"
+                      "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 388 Potrero Avenue, San Francisco",
+                      "text": "Shell"
+                    },
+                    {
+                      "postback": "get nearest directions from 375 11th St San Francisco California 94103 to 1000 Harrison Street, San Francisco",
+                      "text": "Chevron"
                     }
                   ]
+                }
+        ]
+      })
+      .end(function(err, res) {
+        if (err) return done(err);
+        // expect(validator.validate(res.body, schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 4000);
+    });
+
+
+    it('should return NO Park', function(done) {
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "id": "63faf915-5aef-46fa-940f-23225a3615c4",
+            "timestamp": "2017-05-24T13:20:18.511Z",
+            "lang": "en",
+            "result": {
+              "source": "agent",
+              "resolvedQuery": "how to get to the nearest gas station",
+              "action": "navigation.directions",
+              "actionIncomplete": true,
+              "parameters": {
+                "exclude-point": "",
+                "from": {"admin-area":"California","city":"Trona","street-address":"13200 Main St","zip-code":"93562"},
+                "include-point": "",
+                "road-type": "",
+                "route-type": "",
+                "sort": [
+                  "nearest"
+                ],
+                "to": {
+                  "business-name": "park"
+                }
+              },
+              "contexts": [
+                {
+                  "name": "navigation_directions_dialog_params_from",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "gas station",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 1
+                },
+                {
+                  "name": "navigation_directions_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "gas station",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                },
+                {
+                  "name": "bb2bb19c-a285-46b9-82c4-da0a89c6c373_id_dialog_context",
+                  "parameters": {
+                    "exclude-point": "",
+                    "route-type.original": "",
+                    "from.original": "",
+                    "road-type.original": "",
+                    "road-type": "",
+                    "sort": [
+                      "nearest"
+                    ],
+                    "include-point": "",
+                    "to.original": "ATM",
+                    "exclude-point.original": "",
+                    "route-type": "",
+                    "include-point.original": "",
+                    "from": "",
+                    "to": {
+                      "business-name": "ATM",
+                      "business-name.original": "ATM"
+                    },
+                    "sort.original": "nearest"
+                  },
+                  "lifespan": 2
+                }
+              ],
+              "metadata": {
+                "intentId": "bb2bb19c-a285-46b9-82c4-da0a89c6c373",
+                "webhookUsed": "true",
+                "webhookForSlotFillingUsed": "false",
+                "intentName": "navigation.directions"
+              },
+              "fulfillment": {
+                "speech": "Enter start point",
+                "messages": [
+                  {
+                    "type": 0,
+                    "speech": "Enter start point"
+                  }
+                ]
+              },
+              "score": 1
+            },
+            "status": {
+              "code": 200,
+              "errorType": "success"
+            },
+            "sessionId": "688d71f5-f512-404e-a7f9-1e05d44a97a1"
+          })
+      .expect({
+          "messages": [
+                {
+                   "speech": "There is no park",
+                    "type": 0
+                  
                 }
         ]
       })

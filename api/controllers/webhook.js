@@ -176,22 +176,38 @@ function webhook(req, res) {
                 var paramInfo = req['body']['result']['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
                 params.destination = getLocationString(paramInfo['to']);
-                console.log("Destination: " + params.destination)
                 if(place_types.indexOf(params.destination.toLowerCase()) >= 0) {
                         var place_type = params.destination.toLowerCase()
                         
-                        locations.search({
-                                location: [1.290842, 103.776356],
-                                radius: 1000,
-                                language: 'en',
-                                rankby: 'prominence',
-                                types: [place_type]
-                            }, function(err, response) {
-                                // console.log("search: ", response.results);
-                                
-                                array_results = response.results
+                        googleMapsClient.geocode({
+                            address: params.origin
+                        }, function(err, response) {
+                            if (!err) {
+                                var location = response.json.results[0].geometry.location;
+                                locations.search({
+                                        location: [location["lat"], location["lng"]],
+                                        radius: 1000,
+                                        language: 'en',
+                                        rankby: 'prominence',
+                                        types: [place_type]
+                                    }, function(err, response1) {
+                                        array_results = response1.results
+                                        console.log("search1111111: ", response1.results + " " + err);
+                                        if(array_results.length == 0 || array_results.length == 1 && array_results[0].name.toLowerCase() == params.destination.toLowerCase()) {
+                                            array_results = []
+                                            result = "There is no " + params.destination
+                                        } else {
+                                            array_results = response1.results
+                                        }
+                                        
+                                        callback();
+                                });
+                            } else {
+                                result = err
                                 callback();
+                            }
                         });
+                        
                 } else {
                     map.getDirectionSteps(params, function (err, steps){
                         if (err) {
@@ -226,7 +242,7 @@ function webhook(req, res) {
         }
     ], function(err) { 
         if (err) return next(err);
-        console.log("finish " + stringify(result))
+        // console.log("finish " + stringify(result))
 
         
         if(array_results.length > 0) {
