@@ -176,7 +176,13 @@ function webhook(req, res) {
             if(req['body']['result']['action'] == 'navigation.directions') {
                 var paramInfo = req['body']['result']['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
+                if(params.origin.length == 0) {
+                    result = "Where is you now ?"
+                    callback();
+                }
+
                 params.destination = getLocationString(paramInfo['to']);
+
                 if(params.destination.includes("_")) {
                         var place_type = params.destination.toLowerCase()
                         
