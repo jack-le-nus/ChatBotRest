@@ -15,12 +15,13 @@ var googleMapsClient = require('@google/maps').createClient({
 
 var map = require('google_directions');
 var place_types = [
+    "atm",
+    "park",
     "accounting",
     "airport",
     "amusement_park",
     "aquarium",
     "art_gallery",
-    "atm",
     "bakery",
     "bank",
     "bar",
@@ -83,7 +84,6 @@ var place_types = [
     "museum",
     "night_club",
     "painter",
-    "park",
     "parking",
     "pet_store",
     "pharmacy",
@@ -141,13 +141,13 @@ module.exports = {
 };
 
 function getLocationString(location) {
+    console.log("location " + location)
   if(typeof location === 'string' || location instanceof String) {
-    return location
-  }
-
-  if(location['business-name']) {
-      
-      return location['business-name'].replace(" ", "_")
+       var placeType = location.replace(" ", "_")
+       if(place_types.indexOf(placeType.toLowerCase()) >= 0) {
+            return placeType
+        }
+        return location
   }
 
   return String.format('{0} {1} {2} {3} {4}',
@@ -177,7 +177,7 @@ function webhook(req, res) {
                 var paramInfo = req['body']['result']['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
                 params.destination = getLocationString(paramInfo['to']);
-                if(place_types.indexOf(params.destination.toLowerCase()) >= 0) {
+                if(params.destination.includes("_")) {
                         var place_type = params.destination.toLowerCase()
                         
                         googleMapsClient.geocode({
