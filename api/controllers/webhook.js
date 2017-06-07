@@ -90,71 +90,72 @@ function webhook(req, res) {
                 var paramInfo = req['body']['result']['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
                 params.destination = getLocationString(paramInfo['to']);
-            }
-
-            if(params.destination.includes("_")) {
-                    var place_type = params.destination.toLowerCase()
-                    
-                    googleMapsClient.geocode({
-                        address: params.origin
-                    }, function(err, response) {
-                        if (!err) {
-                            var location = response.json.results[0].geometry.location;
-                            locations.search({
-                                    location: [location["lat"], location["lng"]],
-                                    radius: 1000,
-                                    language: 'en',
-                                    rankby: 'prominence',
-                                    types: [place_type]
-                                }, function(err, response1) {
-                                    array_results = response1.results
-                                    console.log("search1111111: ", response1.results + " " + err);
-                                    if(array_results.length == 0 || array_results.length == 1 && array_results[0].name.toLowerCase() == params.destination.toLowerCase()) {
-                                        array_results = []
-                                        result = "There is no " + params.destination
-                                    } else {
-                                        array_results = response1.results
-                                    }
-                                    
-                                    callback();
-                            });
-                        } else {
-                            result = err
-                            callback();
-                        }
-                    });
-                    
-            } else {
-                map.getDirectionSteps(params, function (err, steps){
-                    if (err) {
-                        console.log(err);
-                        return 1;
-                    }
-                
-                    // parse the JSON object of steps into a string output 
-                    var output="";
-                    var stepCounter = 1;
-                    steps.forEach(function(stepObj) {
-                        var instruction = stepObj.html_instructions;
-                        instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
-                        var distance = stepObj.distance.text;
-                        var duration = stepObj.duration.text;
-
-                        output = String.format('{0}Step {1}: {2} ({3}/{4})\n\n',
-                            output,
-                            stepCounter,
-                            instruction,
-                            distance,
-                            duration);
-                            
-                        stepCounter++;
-                    });	
-                    result = output;
-
-                    callback();
-                });
-            }
             
+
+                if(params.destination.includes("_")) {
+                        var place_type = params.destination.toLowerCase()
+                        
+                        googleMapsClient.geocode({
+                            address: params.origin
+                        }, function(err, response) {
+                            if (!err) {
+                                var location = response.json.results[0].geometry.location;
+                                locations.search({
+                                        location: [location["lat"], location["lng"]],
+                                        radius: 1000,
+                                        language: 'en',
+                                        rankby: 'prominence',
+                                        types: [place_type]
+                                    }, function(err, response1) {
+                                        array_results = response1.results
+                                        console.log("search1111111: ", response1.results + " " + err);
+                                        if(array_results.length == 0 || array_results.length == 1 && array_results[0].name.toLowerCase() == params.destination.toLowerCase()) {
+                                            array_results = []
+                                            result = "There is no " + params.destination
+                                        } else {
+                                            array_results = response1.results
+                                        }
+                                        
+                                        callback();
+                                });
+                            } else {
+                                result = err
+                                callback();
+                            }
+                        });
+                        
+                } else {
+                    map.getDirectionSteps(params, function (err, steps){
+                        if (err) {
+                            console.log(err);
+                            return 1;
+                        }
+                    
+                        // parse the JSON object of steps into a string output 
+                        var output="";
+                        var stepCounter = 1;
+                        steps.forEach(function(stepObj) {
+                            var instruction = stepObj.html_instructions;
+                            instruction = instruction.replace(/<[^>]*>/g, ""); // regex to remove html tags 
+                            var distance = stepObj.distance.text;
+                            var duration = stepObj.duration.text;
+
+                            output = String.format('{0}Step {1}: {2} ({3}/{4})\n\n',
+                                output,
+                                stepCounter,
+                                instruction,
+                                distance,
+                                duration);
+                                
+                            stepCounter++;
+                        });	
+                        result = output;
+
+                        callback();
+                    });
+                }
+                
+            }
         }
     ], function(err) { 
         if (err) return next(err);
