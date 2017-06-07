@@ -266,7 +266,7 @@ function webhook(req, res) {
                         response["messages"][0]["buttons"].push(
                             {
                                 "text": array_results[i]["name"],
-                                "postback": "get nearest directions from " + params.origin + " to " + array_results[i]["vicinity"]
+                                "postback": "how about " + array_results[i]["vicinity"]
                             }
                         )
                 }
