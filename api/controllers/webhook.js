@@ -79,12 +79,12 @@ function webhook(req, res) {
   async.series([
         //Load user to get `userId` first
         function(callback) {
-            if(req['body']['result']['action'] == 'navigation.location') {
-                var paramInfo = req['body']['result']['parameters'];
-                var context = req['body']['result']['contexts'][0]['parameters'];
-                params.origin = getLocationString(paramInfo['from']);
-                params.destination = getLocationString(context['to']);
-            }
+            // if(req['body']['result']['action'] == 'navigation.location') {
+            //     var paramInfo = req['body']['result']['parameters'];
+            //     var context = req['body']['result']['contexts'][0]['parameters'];
+            //     params.origin = getLocationString(paramInfo['from']);
+            //     params.destination = getLocationString(context['to']);
+            // }
 
             if(req['body']['result']['action'] == 'navigation.directions') {
                 var paramInfo = req['body']['result']['parameters'];
