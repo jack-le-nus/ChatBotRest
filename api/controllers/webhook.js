@@ -157,6 +157,7 @@ function getLocationString(location) {
         location['zip-code']).trim();
 }
 
+//TODO: Add contexts + test all cases on skype
 function webhook(req, res) {
 
   if(isEmptyObject(req.body)) {
