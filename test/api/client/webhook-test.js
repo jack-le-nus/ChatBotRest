@@ -167,7 +167,7 @@ describe('/webhook', function() {
               "resolvedQuery": "how to get to the nearest gas station",
               "parameters": {
                 "from": "1111 Gough St, San Francisco, CA",
-                "to": "gas station"
+                "to": "restaurant"
               }
           }})
       .end(function(err, res) {
