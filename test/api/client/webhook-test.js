@@ -262,4 +262,56 @@ describe('/webhook', function() {
 
       setTimeout(done, 5000);
     });
+
+     it('should return total distance between the origin and destination', function(done) {
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "result": {
+               "action": "navigation.distance",
+              "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
+              "parameters": {
+                "from": "1600 Amphitheatre Parkway, Mountain View, CA",
+                "to": "1500 Charleston Rd, Mountain View, CA 94043, USA"
+              }
+          }})
+          .expect({
+            
+          })
+      .end(function(err, res) {
+        if (err) return done(err);
+        expect(validator.validate(res.body, short_schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 5000);
+    });
+
+    it('should return the time taken between the origin and destination', function(done) {
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "result": {
+               "action": "navigation.time",
+              "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
+              "parameters": {
+                "from": "1600 Amphitheatre Parkway, Mountain View, CA",
+                "to": "1500 Charleston Rd, Mountain View, CA 94043, USA"
+              }
+          }})
+          .expect({
+            
+          })
+      .end(function(err, res) {
+        if (err) return done(err);
+        expect(validator.validate(res.body, short_schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 5000);
+    });
 })});
