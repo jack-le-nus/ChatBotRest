@@ -217,7 +217,7 @@ describe('/webhook', function() {
                "action": "navigation.alocation",
               "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
               "parameters": {
-                "from": "1111 Gough St, San Francisco, CA"
+                "from": "52 Golf Club Rd, Pleasant Hill, CA"
               }
           }})
       .end(function(err, res) {

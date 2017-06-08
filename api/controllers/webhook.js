@@ -88,7 +88,7 @@ function webhook(req, res) {
                 }
                 var paramInfo = req['body']['result']['parameters'];
                 var context = req['body']['result']['contexts'][0]['parameters'];
-                params.origin = getLocationString(paramInfo['from']);
+                params.origin = getLocationString(paramInfo['current_location']);
                 params.destination = getLocationString(context['to']);
             }
 
