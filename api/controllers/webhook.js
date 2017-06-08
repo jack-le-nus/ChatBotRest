@@ -102,6 +102,12 @@ function webhook(req, res) {
             console.log("location " + params.origin)
             console.log("location " + params.destination)
 
+            if(params.origin === undefined || params.origin.length == 0) {
+                result = "Could you type your current location ?"
+                callback();
+                return
+            }
+
             if(place_types.indexOf(params.destination) >= 0) {
                     var place_type = params.destination.toLowerCase()
                     

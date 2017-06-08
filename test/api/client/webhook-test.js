@@ -217,9 +217,44 @@ describe('/webhook', function() {
                "action": "navigation.alocation",
               "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
               "parameters": {
-                "from": "52 Golf Club Rd, Pleasant Hill, CA"
+                "current_location": "52 Golf Club Rd, Pleasant Hill, CA"
+              },
+              "contexts": [
+              {
+                "parameters": {
+                  "to": "restaurant"
+                }
+              }]
+          }})
+          .expect({
+
+          })
+      .end(function(err, res) {
+        if (err) return done(err);
+        expect(validator.validate(res.body, short_schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 5000);
+    });
+
+    it('should return ask location when from value is empty', function(done) {
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "result": {
+               "action": "navigation.directions",
+              "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
+              "parameters": {
+                "from": "",
+                "to": ""
               }
           }})
+          .expect({
+            
+          })
       .end(function(err, res) {
         if (err) return done(err);
         expect(validator.validate(res.body, short_schema)).to.be.true;
