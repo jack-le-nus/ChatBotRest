@@ -248,7 +248,6 @@ describe('/webhook', function() {
                "action": "navigation.directions",
               "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
               "parameters": {
-                "from": "",
                 "to": ""
               }
           }})

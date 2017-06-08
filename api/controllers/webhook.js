@@ -94,6 +94,11 @@ function webhook(req, res) {
 
             if(req['body']['result']['action'] == 'navigation.directions') {
                 var paramInfo = req['body']['result']['parameters'];
+                if(paramInfo['from'] === undefined || paramInfo['from'].length == 0) {
+                    result = "Could you type your current location ?"
+                    callback();
+                    return
+                }
                 params.origin = getLocationString(paramInfo['from']);
                 params.destination = getLocationString(paramInfo['to']);
             
@@ -101,12 +106,6 @@ function webhook(req, res) {
 
             console.log("location " + params.origin)
             console.log("location " + params.destination)
-
-            if(params.origin === undefined || params.origin.length == 0) {
-                result = "Could you type your current location ?"
-                callback();
-                return
-            }
 
             if(place_types.indexOf(params.destination) >= 0) {
                     var place_type = params.destination.toLowerCase()
