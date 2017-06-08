@@ -18,7 +18,8 @@ var place_types = [
     "atm",
     "park",
     "restaurant",
-    "airport"
+    "airport",
+    "gas_petrol"
 ];
 var params = {
     // REQUIRED 
@@ -48,7 +49,7 @@ module.exports = {
 };
 
 function getLocationString(location) {
-    console.log("location " + location)
+    
   if(typeof location === 'string' || location instanceof String) {
        var placeType = location.replace(" ", "_")
        if(place_types.indexOf(placeType.toLowerCase()) >= 0) {
@@ -79,7 +80,12 @@ function webhook(req, res) {
   async.series([
         //Load user to get `userId` first
         function(callback) {
-            if(req['body']['result']['action'] == 'navigation.location') {
+            if(req['body']['result']['action'] == 'navigation.alocation') {
+                if(req['body']['result']['contexts'] === undefined) {
+                    result = ""
+                    callback();
+                    return
+                }
                 var paramInfo = req['body']['result']['parameters'];
                 var context = req['body']['result']['contexts'][0]['parameters'];
                 params.origin = getLocationString(paramInfo['from']);
@@ -92,6 +98,8 @@ function webhook(req, res) {
                 params.destination = getLocationString(paramInfo['to']);
             
             }
+
+            console.log("location " + params.destination)
 
             if(params.destination.includes("_")) {
                     var place_type = params.destination.toLowerCase()

@@ -166,10 +166,12 @@ describe('/webhook', function() {
                "action": "navigation.directions",
               "resolvedQuery": "how to get to the nearest gas station",
               "parameters": {
-                "from": "1111 Gough St, San Francisco, CA",
-                "to": "restaurant"
+                "from": "52 Golf Club Rd, Pleasant Hill, CA",
+                "to": "gas petrol"
               }
-          }})
+          }}).expect({
+
+          })
       .end(function(err, res) {
         if (err) return done(err);
         expect(validator.validate(res.body, long_schema)).to.be.true;
@@ -196,6 +198,28 @@ describe('/webhook', function() {
       .end(function(err, res) {
         if (err) return done(err);
         expect(validator.validate(res.body, long_schema)).to.be.true;
+        done();
+      });
+
+      setTimeout(done, 5000);
+    });
+
+    it('should return nothing when tell current location', function(done) {
+
+      /*eslint-enable*/
+      api.post('/webhook')
+      .set('Content-Type', 'application/json')
+      .send({
+            "result": {
+               "action": "navigation.alocation",
+              "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
+              "parameters": {
+                "from": "1111 Gough St, San Francisco, CA"
+              }
+          }})
+      .end(function(err, res) {
+        if (err) return done(err);
+        expect(validator.validate(res.body, short_schema)).to.be.true;
         done();
       });
 
