@@ -300,7 +300,7 @@ describe('/webhook', function() {
               "resolvedQuery": "My location is 1111 Gough St, San Francisco, CA",
               "parameters": {
                 "from": "1600 Amphitheatre Parkway, Mountain View, CA",
-                "to": "1500 Charleston Rd, Mountain View, CA 94043, USA"
+                "to": "there"
               }
           }})
           .expect({

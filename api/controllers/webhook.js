@@ -87,17 +87,23 @@ function webhook(req, res) {
                 params.destination = getLocationString(paramInfo['to']);
                 console.log(params.origin + ' - ' + params.destination)
 
-                map.getDuration(params, function (err, data) {
-                    if (err) {
-                        console.log(err);
-                        return 1;
-                    }
-                    console.log("It takes "+data +" to reach ");
-                    var output = " It takes "+data +" to reach ";
-                    result = output;
+                // try {
+                    map.getDuration(params, function (err, data) {
+                        if (err) {
+                            console.log("asd asdfasd f" + err);
+                            return 1;
+                        }
+                        console.log("It takes "+data +" to reach ");
+                        var output = " It takes "+data +" to reach ";
+                        result = output;
 
-                    callback();
-                });
+                        callback();
+                    });
+                // }
+                // catch(err) {
+                    
+                // }
+                
             }
             else if(req['body']['result']['action'] == 'navigation.distance')
             {
@@ -135,7 +141,7 @@ function webhook(req, res) {
                 if(req['body']['result']['action'] == 'navigation.directions') {
                     var paramInfo = req['body']['result']['parameters'];
                     if(paramInfo['from'] === undefined || paramInfo['from'].length == 0) {
-                        result = "Could you type your current location ?"
+                        result = "Could you type your current location ? (Ex: US address: 677 Contra Costa Blvd, Pleasant Hill)"
                         callback();
                         return
                     }
