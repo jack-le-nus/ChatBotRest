@@ -191,10 +191,13 @@ describe('/webhook', function() {
                "action": "navigation.directions",
               "resolvedQuery": "how to get to the nearest gas station",
               "parameters": {
-                "from": "1111 Gough St, San Francisco, CA",
+                "from": "52 Golf Club Rd, Pleasant Hill, CA",
                 "to": "atm"
               }
           }})
+          .expect({
+
+          })
       .end(function(err, res) {
         if (err) return done(err);
         expect(validator.validate(res.body, long_schema)).to.be.true;

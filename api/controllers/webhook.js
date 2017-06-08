@@ -51,8 +51,8 @@ module.exports = {
 function getLocationString(location) {
     
   if(typeof location === 'string' || location instanceof String) {
-       var placeType = location.replace(" ", "_")
-       if(place_types.indexOf(placeType.toLowerCase()) >= 0) {
+       var placeType = location.replace(" ", "_").toLowerCase()
+       if(place_types.indexOf(placeType) >= 0) {
             return placeType
         }
         return location
@@ -99,9 +99,10 @@ function webhook(req, res) {
             
             }
 
+            console.log("location " + params.origin)
             console.log("location " + params.destination)
 
-            if(params.destination.includes("_")) {
+            if(place_types.indexOf(params.destination) >= 0) {
                     var place_type = params.destination.toLowerCase()
                     
                     googleMapsClient.geocode({
