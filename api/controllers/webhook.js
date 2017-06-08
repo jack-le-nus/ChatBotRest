@@ -195,7 +195,7 @@ function webhook(req, res) {
                         response["messages"][0]["buttons"].push(
                             {
                                 "text": array_results[i]["name"],
-                                "postback": "how about " + array_results[i]["vicinity"]
+                                "postback": "I need directions to " + array_results[i]["vicinity"]
                             }
                         )
                 }
