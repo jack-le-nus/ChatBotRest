@@ -42,6 +42,30 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /webhookweather:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: webhookweather
+    
+    post:
+      description: post a message
+      operationId: webhookweather
+      # message to be stored
+      parameters:
+        - name: title
+          description: Request properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Request"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetAnswerResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
