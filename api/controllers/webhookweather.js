@@ -58,53 +58,52 @@ function webhookweather(req, res) {
         //Load user to get `userId` first
         function(callback) {
             console.log(req['body']['result']['action'])
-            if(req['body']['result']['action'] == 'weather.temperature') {
-                var paramInfo = req['body']['result']['parameters'];
-                params.address = getLocationString(paramInfo['address']);
-                params.dateTime = paramInfo['date-time'];
-                //var paramDate = req['body']['result']['parameters']['address'];
-                console.log("***Test Get Address Request***");
-                console.log(params.address);
+            var paramInfo = req['body']['result']['parameters'];
+            params.address = getLocationString(paramInfo['address']);
+            params.dateTime = paramInfo['date-time'];
+            //var paramDate = req['body']['result']['parameters']['address'];
+            console.log("***Test Get Address Request***");
+            console.log(params.address);
 
-                weather.find({search: params.address, degreeType: 'F'}, function(err, output) {
-                    if(err) console.log(err);
-                    console.log(JSON.stringify(output));
-                    
-                    var location = output[0].location.name;
-                    var temperature = output[0].current.temperature;
-                    var winddisplay = output[0].current.winddisplay;
-                    var skyText = output[0].current.skytext;
-                    var forecastSkyText = output[0].forecast[2].skytextday;
-                    var forecastLow = output[0].forecast[2].low;
-                    var forecastHigh = output[0].forecast[2].high;
-                    var unit = output[0].location.degreetype;
+            weather.find({search: params.address, degreeType: 'F'}, function(err, output) {
+                if(err) console.log(err);
+                console.log(JSON.stringify(output));
+                
+                var location = output[0].location.name;
+                var temperature = output[0].current.temperature;
+                var winddisplay = output[0].current.winddisplay;
+                var skyText = output[0].current.skytext;
+                var forecastSkyText = output[0].forecast[2].skytextday;
+                var forecastLow = output[0].forecast[2].low;
+                var forecastHigh = output[0].forecast[2].high;
+                var unit = output[0].location.degreetype;
 
-                    if(params.dateTime == "today") {
-                        console.log(output[0].current.temperature +output[0].location.degreetype );
-                        console.log(output[0].current.skytext);
-                        result = String.format('{0}{1} {2} \n\n{3}',
-                        temperature,
-                        unit,
-                        skyText,
-                        winddisplay).trim();
+                if(params.dateTime == "today") {
+                    console.log(output[0].current.temperature +output[0].location.degreetype );
+                    console.log(output[0].current.skytext);
+                    result = String.format('{0}{1} {2} \n\n{3}',
+                    temperature,
+                    unit,
+                    skyText,
+                    winddisplay).trim();
+                }
+                else {
+                    result = ""
+                    for(var i = 0; i < output[0].forecast.length; i++) {
+                        var dayForecast = output[0].forecast[i];
+                        result += String.format('{0} \n\n{1}{2} - {3}{4}  {5}\n\n',
+                            dayForecast.day,
+                            dayForecast.low,
+                            unit,
+                            dayForecast.high,
+                            unit,
+                            dayForecast.skytextday);
                     }
-                    else {
-                        result = ""
-                        for(var i = 0; i < output[0].forecast.length; i++) {
-                            var dayForecast = output[0].forecast[i];
-                            result += String.format('{0} \n\n{1}{2} - {3}{4}  {5}\n\n',
-                                dayForecast.day,
-                                dayForecast.low,
-                                unit,
-                                dayForecast.high,
-                                unit,
-                                dayForecast.skytextday);
-                        }
-                    }
+                }
 
-                    callback();
-                });
-            }
+                callback();
+            });
+            
         }
     ], function(err) {
         if (err) return next(err);

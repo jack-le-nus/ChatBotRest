@@ -121,8 +121,8 @@ describe('/webhookweather', function() {
                         "action": "weather.temperature",
                         "actionIncomplete": false,
                         "parameters": {
-                            "address": "San Francisco, CA",
-                            "date-time": "today"
+                            "address": "Singapore",
+                            "date-time": "in 5 days"
                         },
                         "contexts": [],
                         "metadata": {
